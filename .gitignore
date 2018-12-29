@@ -1,0 +1,17 @@
+node_modules/
+npm-debug.log
+Thumbs.db
+.DS_Store
+/dist/*
+/coverage
+
+*.log
+# IDE
+.vscode/*
+.vs/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+/nbproject/

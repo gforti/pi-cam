@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <base href="/">
+  <title>EventSource</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+  <p>In coming message</p>
+  <button>Stop</button>
+   <video></video>
+
+  <script>
+    const URL = `${window.location.origin}/stream`
+    document.querySelector('button').addEventListener('click', () => {
+      eventSource.close()
+    })
+
+    let video = document.querySelector('video')
+    const p = document.querySelector('p')
+    video.addEventListener('loadedmetadata', (e) => {
+      video.play()
+    })
+
+    // Declare an EventSource
+    const eventSource = new EventSource(URL);
+    // Handler for events without an event type specified
+    eventSource.addEventListener('message', (e) => {
+      //console.log(e.data)
+       // document.querySelector('message-incoming').dataset.msg = e.data
+    })
+    // Handler for events of type 'eventType' only
+    eventSource.addEventListener('test', (e) => {
+      /*console.log(e)
+      console.log(e.data)*/
+      if (e.lastEventId === 'CLOSE') {
+        eventSource.close()
+        console.log('closed from Server', e)
+      } else {
+        video.srcObject = JSON.parse(e.data)
+      }
+    })
+    eventSource.addEventListener('error', (e) => {
+      p.innerHTML = 'EventSource failed.'
+    })
+
+  </script>
+
+</body>
+
+</html>
